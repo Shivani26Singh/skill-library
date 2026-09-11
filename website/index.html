@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QA Skill Library</title>
+<meta name="description" content="28 instruction files for AI coding assistants — the full software testing lifecycle plus a Playwright automation pack. Point your assistant at one and go.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --bg: #f7f5fb;
+    --surface: #ffffff;
+    --surface-2: #efe9fa;
+    --ink: #201a2e;
+    --ink-soft: #5c5570;
+    --ink-faint: #8b829c;
+    --accent: #7c3aed;
+    --accent-ink: #ffffff;
+    --accent-soft: #ede3fc;
+    --secondary: #0e8a83;
+    --secondary-soft: #dcf3f0;
+    --advisory: #c9660f;
+    --advisory-soft: #faead4;
+    --border: #e3dcf0;
+    --code-bg: #1c1330;
+    --code-ink: #e7dff7;
+    --shadow: 0 1px 2px rgba(32,26,46,0.06), 0 10px 28px -14px rgba(32,26,46,0.22);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #120c1e;
+      --surface: #1a1329;
+      --surface-2: #241a3a;
+      --ink: #f1ecfb;
+      --ink-soft: #b6acce;
+      --ink-faint: #857c9c;
+      --accent: #b794f6;
+      --accent-ink: #1a1329;
+      --accent-soft: #2c2149;
+      --secondary: #35d6c4;
+      --secondary-soft: #12332e;
+      --advisory: #f0a860;
+      --advisory-soft: #3a2917;
+      --border: #2d2447;
+      --code-bg: #0d0817;
+      --code-ink: #d8cbf0;
+      --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 14px 32px -16px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #120c1e; --surface: #1a1329; --surface-2: #241a3a;
+    --ink: #f1ecfb; --ink-soft: #b6acce; --ink-faint: #857c9c;
+    --accent: #b794f6; --accent-ink: #1a1329; --accent-soft: #2c2149;
+    --secondary: #35d6c4; --secondary-soft: #12332e;
+    --advisory: #f0a860; --advisory-soft: #3a2917; --border: #2d2447;
+    --code-bg: #0d0817; --code-ink: #d8cbf0;
+    --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 14px 32px -16px rgba(0,0,0,0.6);
+  }
+
+  * { box-sizing: border-box; }
+  html { color-scheme: light dark; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.55; -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+  a { color: var(--accent); }
+  h1, h2, h3 { font-family: "Fraunces", Georgia, serif; text-wrap: balance; margin: 0; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 32px); }
+  code, .mono { font-family: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace; }
+  svg.icon { display: block; flex-shrink: 0; }
+
+  /* ---------- Top bar ---------- */
+  .topbar { border-bottom: 1px solid var(--border); background: var(--surface); position: sticky; top: 0; z-index: 20; }
+  .topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-family: "Fraunces", serif; font-weight: 600; font-size: 1.05rem; letter-spacing: -0.01em; }
+  .brand-mark {
+    width: 30px; height: 30px; border-radius: 9px;
+    background: linear-gradient(155deg, var(--accent), var(--secondary));
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .brand-mark svg { color: #fff; }
+  .top-links { display: flex; gap: 18px; font-size: 0.86rem; color: var(--ink-soft); flex-wrap: wrap; }
+  .top-links a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid transparent; }
+  .top-links a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding-block: clamp(40px, 7vw, 72px) clamp(28px, 5vw, 44px);
+    display: grid; grid-template-columns: 1.2fr 0.8fr; gap: clamp(28px, 5vw, 48px); align-items: center;
+  }
+  @media (max-width: 860px) { .hero { grid-template-columns: 1fr; } }
+  .eyebrow {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.76rem; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 14px; display: inline-block;
+  }
+  .hero h1 { font-size: clamp(1.7rem, 2.8vw, 2.25rem); line-height: 1.2; font-weight: 600; letter-spacing: -0.015em; max-width: 48ch; }
+  .hero h1 br { display: block; }
+  @media (max-width: 640px) { .hero h1 br { display: none; } }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero p.lede { margin: 16px 0 0; font-size: 1.05rem; color: var(--ink-soft); max-width: 52ch; }
+  .hero-stats { display: flex; gap: 30px; margin-top: 28px; flex-wrap: wrap; }
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+  .stat .n { font-family: "Fraunces", serif; font-size: 2.1rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; color: var(--accent); }
+  .stat .l { font-size: 0.76rem; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.05em; }
+  .hero-actions { display: flex; align-items: center; gap: 18px; margin-top: 30px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; border-radius: 9px;
+    font-size: 0.96rem; font-weight: 600; text-decoration: none; border: 1px solid transparent; cursor: pointer;
+    font-family: inherit;
+  }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); box-shadow: 0 6px 18px -8px color-mix(in srgb, var(--accent) 60%, transparent); }
+  .btn-text { color: var(--ink-soft); font-size: 0.9rem; font-weight: 500; text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 1px; }
+  .btn-text:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ---------- Hero visual ---------- */
+  .hero-visual {
+    background: var(--code-bg); color: var(--code-ink); border-radius: 16px; padding: 26px 22px;
+    box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; gap: 10px;
+    font-family: "IBM Plex Mono", monospace; font-size: 0.8rem; text-align: center;
+  }
+  .hv-node { background: var(--surface-2-dark, #241a3a); border: 1px solid #3a2e59; border-radius: 9px; padding: 9px 14px; color: var(--code-ink); width: 100%; }
+  .hv-node.accent { background: color-mix(in srgb, var(--accent) 22%, var(--code-bg)); border-color: var(--accent); color: #fff; font-weight: 600; }
+  .hv-node.gate { background: color-mix(in srgb, var(--advisory) 22%, var(--code-bg)); border-color: var(--advisory); color: #ffd9ac; font-weight: 600; }
+  .hv-arrow { color: #6a5c8a; line-height: 1; }
+  .hv-caption { margin-top: 6px; font-style: italic; color: #877aa3; font-size: 0.74rem; }
+
+  /* ---------- Tagline banner ---------- */
+  .tagline-banner {
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 0 12px 12px 0;
+    padding: 18px 24px;
+    margin-block: 4px 28px;
+  }
+  .tagline-main {
+    margin: 0; font-family: "Fraunces", serif; font-weight: 600; font-style: italic;
+    font-size: clamp(1.1rem, 2vw, 1.35rem); color: var(--ink);
+  }
+  .tagline-sub { margin: 8px 0 0; font-size: 0.92rem; color: var(--ink-soft); max-width: 68ch; }
+
+  /* ---------- Flow diagram (STLC) ---------- */
+  .flow-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .flow-head { text-align: center; max-width: 52ch; margin: 0 auto 24px; }
+  .flow-head p { color: var(--ink-soft); font-size: 0.95rem; }
+  .suite-image {
+    display: block; width: 100%; max-width: 900px; margin: 0 auto; border-radius: 14px;
+    box-shadow: var(--shadow); border: 1px solid var(--border);
+  }
+
+  /* ---------- Fact lists & callouts (shared) ---------- */
+  .fact-list { margin: 14px 0 0; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; counter-reset: fact; }
+  .fact-list li { padding-left: 26px; position: relative; color: var(--ink-soft); font-size: 0.95rem; line-height: 1.5; }
+  .fact-list strong { color: var(--ink); }
+  ul.fact-list li::before {
+    content: ''; position: absolute; left: 5px; top: 0.55em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  }
+  ol.fact-list li { counter-increment: fact; }
+  ol.fact-list li::before {
+    content: counter(fact); counter-increment: fact; position: absolute; left: 0; top: 0; width: 18px; height: 18px;
+    border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-family: "IBM Plex Mono", monospace;
+    font-size: 0.68rem; font-weight: 700; display: flex; align-items: center; justify-content: center;
+  }
+  .callout {
+    margin-top: 18px; background: var(--advisory-soft); border: 1px solid color-mix(in srgb, var(--advisory) 30%, var(--border));
+    border-radius: 12px; padding: 16px 20px;
+  }
+  .callout .fact-list { margin-top: 0; }
+  .callout ul.fact-list li::before { background: var(--advisory); }
+
+  /* ---------- Concept cards (What is a skill) ---------- */
+  .concept-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-content: start; height: 100%; }
+  .concept-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+  .cc-num { font-family: "Fraunces", serif; font-weight: 700; color: var(--accent); font-size: 1.3rem; display: block; margin-bottom: 6px; }
+  .concept-card h3 { font-size: 0.96rem; font-weight: 600; }
+  .concept-card p { margin: 4px 0 0; font-size: 0.85rem; color: var(--ink-soft); }
+
+  /* ---------- Generic section framing ---------- */
+  section { padding-block: clamp(36px, 6vw, 60px); }
+  .section-head { max-width: 62ch; margin-bottom: clamp(22px, 4vw, 32px); }
+  .section-head h2 { font-size: clamp(1.4rem, 2.8vw, 1.9rem); font-weight: 600; }
+  .section-head p { color: var(--ink-soft); margin: 10px 0 0; }
+
+  /* ---------- What is a skill ---------- */
+  .anatomy { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+  @media (max-width: 820px) { .anatomy { grid-template-columns: 1fr; } }
+  .anatomy p { color: var(--ink-soft); font-size: 0.98rem; }
+  .filecard {
+    background: var(--code-bg); color: var(--code-ink); border-radius: 12px; padding: 18px 20px 20px;
+    box-shadow: var(--shadow); font-family: "IBM Plex Mono", monospace; font-size: 0.8rem; line-height: 1.65; overflow-x: auto;
+  }
+  .filecard .fname {
+    display: flex; align-items: center; gap: 8px; color: #c9a8ff; font-weight: 600; font-size: 0.8rem; margin-bottom: 14px;
+    padding-bottom: 10px; border-bottom: 1px solid #3a2e59;
+  }
+  .filecard .dots { display: flex; gap: 5px; margin-right: 4px; }
+  .filecard .dots span { width: 8px; height: 8px; border-radius: 50%; background: #3a2e59; display: inline-block; }
+
+  .benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+  @media (max-width: 760px) { .benefits { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .benefits { grid-template-columns: 1fr; } }
+  .benefit { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+  .benefit .ic { width: 30px; height: 30px; border-radius: 8px; background: var(--secondary-soft); color: var(--secondary); display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+  .benefit h3 { font-size: 0.98rem; font-weight: 600; }
+  .benefit p { margin: 6px 0 0; font-size: 0.86rem; color: var(--ink-soft); }
+
+  /* ---------- Install / folder section ---------- */
+  .install-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; margin-bottom: 26px; }
+  @media (max-width: 820px) { .install-grid { grid-template-columns: 1fr; } }
+  .install-grid p { color: var(--ink-soft); font-size: 0.96rem; }
+  .tree-card {
+    background: var(--code-bg); color: var(--code-ink); border-radius: 12px; padding: 18px 20px 20px;
+    box-shadow: var(--shadow); font-family: "IBM Plex Mono", monospace; font-size: 0.86rem;
+  }
+  .tree-rows { display: flex; flex-direction: column; gap: 6px; }
+  .tree-row { display: grid; grid-template-columns: minmax(0, 200px) 1fr; column-gap: 14px; align-items: baseline; }
+  @media (max-width: 460px) { .tree-row { grid-template-columns: 1fr; row-gap: 1px; } }
+  .tree-row .path { white-space: pre; }
+  .tree-row.indent-1 .path { padding-left: 1.4em; }
+  .tree-row.indent-2 .path { padding-left: 2.8em; }
+  .tree-note { color: #877aa3; font-style: italic; }
+  .tree-card .fname {
+    display: flex; align-items: center; gap: 8px; color: #c9a8ff; font-weight: 600; font-size: 0.76rem;
+    margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #3a2e59; white-space: normal;
+  }
+  .tree-card .dots { display: flex; gap: 5px; margin-right: 4px; }
+  .tree-card .dots span { width: 8px; height: 8px; border-radius: 50%; background: #3a2e59; display: inline-block; }
+  .tree-caption { display: block; margin-top: 10px; color: #877aa3; font-style: italic; font-size: 0.78rem; white-space: normal; }
+
+  .scope-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+  table.scope-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; background: var(--surface); }
+  .scope-table th {
+    text-align: left; font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; text-transform: uppercase;
+    letter-spacing: 0.04em; color: var(--ink-faint); padding: 12px 16px; border-bottom: 1px solid var(--border);
+  }
+  .scope-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .scope-table tr:last-child td { border-bottom: none; }
+  .scope-table td:first-child { font-weight: 600; }
+
+  /* ---------- Explorer (sidebar + detail) ---------- */
+  .explorer { display: grid; grid-template-columns: 300px 1fr; gap: 22px; align-items: start; }
+  @media (max-width: 880px) { .explorer { grid-template-columns: 1fr; } }
+
+  .side { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px; position: sticky; top: 74px; max-height: calc(100vh - 100px); display: flex; flex-direction: column; }
+  @media (max-width: 880px) { .side { position: static; max-height: none; } }
+  .pack-tabs { display: flex; gap: 6px; margin-bottom: 10px; flex-shrink: 0; background: var(--bg); border-radius: 9px; padding: 3px; }
+  .pack-tab {
+    flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
+    font-family: "IBM Plex Mono", monospace; font-size: 0.74rem; font-weight: 500;
+    padding: 8px 6px; border-radius: 7px; border: none; background: none; color: var(--ink-soft); cursor: pointer;
+  }
+  .pack-tab span { font-size: 0.7rem; color: var(--ink-faint); }
+  .pack-tab[aria-selected="true"] { background: var(--surface); color: var(--accent); box-shadow: var(--shadow); }
+  .pack-tab[aria-selected="true"] span { color: var(--accent); }
+  .pack-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .search-box { position: relative; margin-bottom: 10px; flex-shrink: 0; }
+  .search-box input {
+    width: 100%; padding: 10px 12px 10px 34px; border-radius: 9px; border: 1px solid var(--border);
+    background: var(--bg); color: var(--ink); font-size: 0.88rem; font-family: inherit;
+  }
+  .search-box input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .search-box svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--ink-faint); }
+  .side-scroll { overflow-y: auto; flex: 1 1 auto; }
+  .side-group { margin-bottom: 4px; }
+  .side-group-btn {
+    width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    background: none; border: none; padding: 8px 6px; cursor: pointer; font-family: "IBM Plex Mono", monospace;
+    font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-faint); text-align: left;
+  }
+  .side-group-btn .chev { transition: transform 0.15s ease; }
+  .side-group-btn[aria-expanded="false"] .chev { transform: rotate(-90deg); }
+  .side-group-count { font-variant-numeric: tabular-nums; }
+  .side-item {
+    display: block; width: 100%; text-align: left; background: none; border: none; cursor: pointer;
+    padding: 8px 10px; border-radius: 8px; font-size: 0.86rem; color: var(--ink); font-family: inherit;
+  }
+  .side-item .nm { display: block; }
+  .side-item .id { display: block; font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; color: var(--ink-faint); margin-top: 1px; }
+  .side-item:hover { background: var(--surface-2); }
+  .side-item[aria-current="true"] { background: var(--accent-soft); }
+  .side-item[aria-current="true"] .nm { color: var(--accent); font-weight: 600; }
+
+  .detail { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: clamp(20px, 3vw, 30px); }
+  .detail-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+  .detail-head h2 { font-size: clamp(1.3rem, 2.4vw, 1.6rem); }
+  .badge {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em;
+    padding: 4px 10px; border-radius: 999px; white-space: nowrap;
+  }
+  .badge.stlc { background: var(--accent-soft); color: var(--accent); }
+  .badge.pw { background: var(--secondary-soft); color: var(--secondary); }
+  .detail-id { font-family: "IBM Plex Mono", monospace; font-size: 0.82rem; color: var(--ink-faint); margin-top: 4px; }
+  .detail-desc { margin-top: 14px; color: var(--ink-soft); font-size: 0.98rem; max-width: 62ch; }
+
+  .iospec-wrap { margin-top: 22px; padding: 18px; background: var(--surface-2); border-radius: 16px; }
+  .iospec { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 12px; align-items: stretch; }
+  @media (max-width: 640px) { .iospec { grid-template-columns: 1fr; } .iospec .arr { display: none; } }
+  .iospec .box { background: var(--surface); border: 1px solid var(--border); border-radius: 11px; padding: 16px 14px; text-align: center; }
+  .iospec .box .lbl { font-family: "IBM Plex Mono", monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-faint); margin-bottom: 8px; display: block; }
+  .iospec .box.skill { background: var(--accent-soft); border: 1.5px solid var(--accent); }
+  .iospec .box.skill .lbl { color: var(--accent); }
+  .iospec .box p { margin: 0; font-size: 0.96rem; font-weight: 600; color: var(--ink); }
+  .iospec .arr { display: flex; align-items: center; justify-content: center; color: var(--accent); }
+  .iospec .arr svg { width: 22px; height: 22px; }
+
+  .gate-pill {
+    margin-top: 16px; display: inline-flex; align-items: center; gap: 8px; font-size: 0.82rem; font-weight: 500;
+    color: var(--secondary); background: var(--secondary-soft); padding: 7px 14px; border-radius: 999px;
+  }
+
+  .why-box {
+    margin-top: 18px; background: var(--advisory-soft); border: 1px solid color-mix(in srgb, var(--advisory) 30%, var(--border));
+    border-radius: 10px; padding: 14px 16px;
+  }
+  .why-box .tag { font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--advisory); font-weight: 600; }
+  .why-box p { margin: 6px 0 0; font-size: 0.9rem; color: var(--ink-soft); }
+  .why-box p strong { color: var(--ink); }
+
+  .prompt-box {
+    margin-top: 18px; background: var(--code-bg); border-radius: 10px; padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start;
+  }
+  .prompt-box p { margin: 0; font-family: "IBM Plex Mono", monospace; font-size: 0.82rem; color: var(--code-ink); line-height: 1.55; }
+  .prompt-box .lbl-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .prompt-wrap { flex: 1; }
+  .prompt-lbl { font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: #b9a5e0; }
+  .copy-btn {
+    background: transparent; border: 1px solid #3a2e59; color: #cfc2ea; border-radius: 6px; padding: 5px 10px;
+    cursor: pointer; font-size: 0.72rem; font-family: "IBM Plex Mono", monospace; flex-shrink: 0;
+  }
+  .copy-btn:hover { border-color: var(--accent); color: #fff; }
+  .copy-btn.copied { color: var(--accent); border-color: var(--accent); }
+
+  .no-results { padding: 30px 10px; text-align: center; color: var(--ink-faint); font-size: 0.9rem; }
+
+  /* ---------- Companion tool ---------- */
+  .companion {
+    background: var(--secondary-soft); border: 1px solid color-mix(in srgb, var(--secondary) 35%, var(--border));
+    border-radius: 14px; padding: clamp(22px, 4vw, 32px);
+  }
+  .companion-eyebrow {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--secondary); font-weight: 600; display: block; margin-bottom: 14px;
+  }
+  .companion-body { display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; }
+  @media (max-width: 640px) { .companion-body { grid-template-columns: 1fr; } }
+  .companion h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 8px; }
+  .companion p { margin: 0; color: var(--ink-soft); max-width: 56ch; }
+  .companion .tags { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .companion .tag { font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; color: var(--secondary); background: var(--surface); padding: 3px 9px; border-radius: 999px; }
+  .btn-secondary { background: var(--secondary); color: #fff; }
+
+  /* ---------- Footer ---------- */
+  footer { border-top: 1px solid var(--border); padding-block: 28px; }
+  .footer-inner { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; align-items: center; }
+  .footer-inner .links { display: flex; gap: 18px; font-size: 0.86rem; flex-wrap: wrap; }
+  .footer-inner .links a { color: var(--ink-soft); text-decoration: none; }
+  .footer-inner .links a:hover { color: var(--accent); }
+  .footer-note { font-size: 0.8rem; color: var(--ink-faint); margin-top: 12px; max-width: 60ch; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="brand">
+      <span class="brand-mark"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+      QA Skill Library
+    </div>
+    <div class="top-links">
+      <a href="#suite">The suite</a>
+      <a href="#what-is">What is a skill</a>
+      <a href="#install">Install &amp; run</a>
+      <a href="#browse">Browse skills</a>
+      <a href="https://github.com/Shivani26Singh/skill-library" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <section class="hero">
+    <div>
+      <span class="eyebrow">28 skills · MIT licensed</span>
+      <h1>Reusable AI skills for QA, from Requirements to<br>Playwright automation.</h1>
+      <p class="lede">28 review-first skills that turn repeatable QA workflows into versioned, reusable instructions for your AI coding assistant.</p>
+      <div class="hero-stats">
+        <div class="stat"><span class="n">13</span><span class="l">STLC skills</span></div>
+        <div class="stat"><span class="n">15</span><span class="l">Playwright skills</span></div>
+        <div class="stat"><span class="n">7</span><span class="l">QA phases</span></div>
+      </div>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#browse">Browse all skills →</a>
+        <a class="btn-text" href="https://github.com/Shivani26Singh/skill-library" target="_blank" rel="noopener">View on GitHub</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hv-node">📄 <code class="mono">SKILL.md</code></div>
+      <div class="hv-arrow">↓</div>
+      <div class="hv-node accent">AI assistant runs the workflow</div>
+      <div class="hv-arrow">↓</div>
+      <div class="hv-node">draft output</div>
+      <div class="hv-arrow">↓</div>
+      <div class="hv-node gate">✓ HUMAN REVIEW — you decide</div>
+      <span class="hv-caption">the same flow, every skill</span>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <div class="tagline-banner">
+    <p class="tagline-main">Write the workflow once. Let the agent run it every time.</p>
+    <p class="tagline-sub">Skills turn your QA process into something versioned and shareable, instead of re-explained from memory each session — same testers, one shared standard.</p>
+  </div>
+</div>
+
+<div class="flow-section" id="suite">
+  <div class="wrap" style="padding-block: clamp(36px,6vw,56px);">
+    <div class="flow-head">
+      <span class="eyebrow">The suite</span>
+      <p>Skills are independent — jump in at any phase. When an earlier phase's output exists, the next one reuses it instead of starting over.</p>
+    </div>
+    <img class="suite-image" src="assets/skill-suite.png" alt="The QA Skill Suite: 28 agent skills across the STLC — Analyze, Plan, Design, Cases, Execute, Defects, Closure — each stopping at a human-review gate. 13 STLC skills plus a 15-skill Playwright automation pack.">
+  </div>
+</div>
+
+<div class="wrap">
+  <section id="what-is">
+    <div class="section-head">
+      <span class="eyebrow">What is a skill</span>
+      <h2>Not a prompt. A file with four parts.</h2>
+      <p>Base models are generalists. <strong>If you've explained the same procedure to your assistant three times this week, you've found a skill</strong> — one file it loads on demand, instead of a system prompt you keep re-pasting.</p>
+    </div>
+    <div class="anatomy">
+      <div class="concept-grid">
+        <div class="concept-card">
+          <span class="cc-num">01</span>
+          <h3>Header</h3>
+          <p>Name, description, version.</p>
+        </div>
+        <div class="concept-card">
+          <span class="cc-num">02</span>
+          <h3>Workflow</h3>
+          <p>The exact steps the assistant follows, in order.</p>
+        </div>
+        <div class="concept-card">
+          <span class="cc-num">03</span>
+          <h3>Output</h3>
+          <p>The sections its answer must contain.</p>
+        </div>
+        <div class="concept-card">
+          <span class="cc-num">04</span>
+          <h3>Guardrails</h3>
+          <p>What it must never do.</p>
+        </div>
+      </div>
+      <div class="filecard">
+        <div class="fname"><span class="dots"><span></span><span></span><span></span></span> pw-flaky-debugger/SKILL.md</div>
+---
+name: pw-flaky-debugger
+description: >-
+  Diagnoses a flaky Playwright test by
+  collecting evidence, classifying the
+  root cause (product / test / env / data),
+  and proposing the smallest fix.
+license: MIT
+metadata:
+  author: Shivani Singh
+  pack: playwright
+  version: 1.0.0
+---
+
+# never fixes flakiness with a longer wait —
+# it hunts the race, then hands you a diff
+      </div>
+    </div>
+
+    <div class="benefits">
+      <div class="benefit">
+        <div class="ic"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></div>
+        <h3>Consistency</h3>
+        <p>Same request, same structured sections and terminology, regardless of who asked or which assistant runs it.</p>
+      </div>
+      <div class="benefit">
+        <div class="ic"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h3>Traceability</h3>
+        <p>Every finding traces to a stated requirement or piece of evidence — nothing is invented to fill a gap.</p>
+      </div>
+      <div class="benefit">
+        <div class="ic"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg></div>
+        <h3>Human-in-the-loop</h3>
+        <p>Every skill ends in a mandatory review gate — the assistant proposes, a person confirms before anything ships.</p>
+      </div>
+      <div class="benefit">
+        <div class="ic"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12"/></svg></div>
+        <h3>Independent &amp; composable</h3>
+        <p>Jump in at any phase. Upstream output is reused when it exists, but reuse is optional, never required.</p>
+      </div>
+      <div class="benefit">
+        <div class="ic"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div>
+        <h3>Honest confidence</h3>
+        <p>Every skill states High / Medium / Low confidence tied to evidence completeness — never to how polished it reads.</p>
+      </div>
+      <div class="benefit">
+        <div class="ic"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="4" height="10" rx="1"/><rect x="10" y="6" width="4" height="15" rx="1"/><rect x="17" y="14" width="4" height="7" rx="1"/></svg></div>
+        <h3>Faster cycles</h3>
+        <p>A ticket ID becomes a review-ready draft — readiness score, test plan, scenarios, bug report — in minutes.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <section id="install">
+    <div class="section-head">
+      <span class="eyebrow">Running a skill</span>
+      <h2>One folder. Support varies by tool.</h2>
+      <p>An Agent Skill is a folder containing <code class="mono">SKILL.md</code> — YAML frontmatter plus Markdown instructions — optionally alongside <code class="mono">references/</code>, <code class="mono">scripts/</code>, or other supporting files the workflow opens only when a step needs them. That structure is the same everywhere. How a tool finds and runs it is not.</p>
+    </div>
+
+    <div class="install-grid">
+      <div class="tree-card">
+        <div class="fname"><span class="dots"><span></span><span></span><span></span></span> folder layout</div>
+        <div class="tree-rows">
+          <div class="tree-row"><span class="path">test-case-writer/</span></div>
+          <div class="tree-row indent-1"><span class="path">SKILL.md</span><span class="tree-note">required — the workflow itself</span></div>
+          <div class="tree-row indent-1"><span class="path">references/</span></div>
+          <div class="tree-row indent-2"><span class="path">bdd-format.md</span><span class="tree-note">Gherkin conventions to follow</span></div>
+          <div class="tree-row indent-2"><span class="path">rtm-template.md</span><span class="tree-note">the RTM table shape to fill in</span></div>
+          <div class="tree-row indent-1"><span class="path">scripts/</span></div>
+          <div class="tree-row indent-2"><span class="path">check-coverage.sh</span><span class="tree-note">runnable, never loaded as text</span></div>
+        </div>
+        <span class="tree-caption">the folder + filename convention is universal</span>
+      </div>
+      <div>
+        <ul class="fact-list">
+          <li><strong><code class="mono">SKILL.md</code></strong> — required workflow file.</li>
+          <li><strong><code class="mono">references/</code></strong> — optional supporting knowledge.</li>
+          <li><strong><code class="mono">scripts/</code></strong> — optional executable tools.</li>
+          <li><strong>Tool location</strong> — varies by assistant, see below.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-head" style="margin-top: 34px;">
+      <span class="eyebrow">Recognized locations, by tool</span>
+    </div>
+
+    <div class="scope-table-wrap">
+      <table class="scope-table">
+        <thead><tr><th>Tool</th><th>Recognized project directory</th><th>Recognized personal directory</th></tr></thead>
+        <tbody>
+          <tr><td>Claude Code</td><td><code class="mono">.claude/skills/</code></td><td><code class="mono">~/.claude/skills/</code></td></tr>
+          <tr><td>GitHub Copilot CLI</td><td><code class="mono">.github/skills/</code>, <code class="mono">.claude/skills/</code>, or <code class="mono">.agents/skills/</code></td><td><code class="mono">~/.copilot/skills/</code> or <code class="mono">~/.agents/skills/</code></td></tr>
+          <tr><td>Other tools</td><td>Check that tool's own docs</td><td>Check that tool's own docs</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <ul class="fact-list">
+        <li><strong>Some overlap exists.</strong> Claude Code and GitHub Copilot CLI both recognize <code class="mono">.claude/skills/</code> — a folder set up for one may already work for the other.</li>
+        <li><strong>Invocation is similar, not identical.</strong> Both support <code class="mono">/&lt;name&gt;</code>, but slash-command behavior varies by tool and version.</li>
+        <li><strong>Not sure your tool supports this?</strong> The file-path method above always works, regardless of tool.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <section id="browse">
+    <div class="section-head">
+      <h2>Browse all 28 skills</h2>
+      <p>Search, or pick a skill from the list — its inputs, output, and a ready-to-copy prompt show on the right.</p>
+    </div>
+    <div class="explorer">
+      <aside class="side">
+        <div class="pack-tabs" role="tablist" aria-label="Skill pack">
+          <button class="pack-tab" type="button" data-pack="stlc" role="tab" aria-selected="true">STLC Skills <span>13</span></button>
+          <button class="pack-tab" type="button" data-pack="pw" role="tab" aria-selected="false">Playwright <span>15</span></button>
+        </div>
+        <div class="search-box">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input id="search" type="search" placeholder="Search…" aria-label="Search skills">
+        </div>
+        <div class="side-scroll" id="sideList"></div>
+      </aside>
+      <div class="detail" id="detail"></div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <section>
+    <div class="companion">
+      <span class="companion-eyebrow">Related tool · same author</span>
+      <div class="companion-body">
+        <div>
+          <h3>Already tracking flakes across runs?</h3>
+          <p>Meet <strong>Playwright Flaky Analyzer</strong> — a companion CLI: deterministic cross-run classification, 21 root-cause rules, an interactive HTML dashboard, fully offline. <span class="mono">pw-test-health-reporter</span> above is written to use it when it's in your project.</p>
+          <div class="tags"><span class="tag">offline · no AI</span><span class="tag">npm install -D</span><span class="tag">MIT</span></div>
+        </div>
+        <a class="btn btn-secondary" href="https://playwright-flaky-analyzer.vercel.app" target="_blank" rel="noopener">Meet the tool ↗</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="brand" style="font-size:0.95rem;">
+        <span class="brand-mark" style="width:24px;height:24px;"><svg class="icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+        QA Skill Library
+      </div>
+      <div class="links">
+        <a href="https://github.com/Shivani26Singh/skill-library" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://playwright-flaky-analyzer.vercel.app" target="_blank" rel="noopener">Flaky Analyzer</a>
+        <a href="https://www.linkedin.com/in/shivani-singh-alwaysreadytolearn" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <p class="footer-note">MIT licensed. Every skill is a draft for a human to confirm — none of them file, close, merge, or ship anything on their own.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var PHASES = [
+    { key: 'req',  title: 'Requirement Analysis' },
+    { key: 'plan', title: 'Test Planning' },
+    { key: 'design', title: 'Test Design' },
+    { key: 'cases', title: 'Test Cases' },
+    { key: 'exec', title: 'Test Execution' },
+    { key: 'defect', title: 'Defect Management' },
+    { key: 'closure', title: 'Test Closure' }
+  ];
+
+  var SKILLS = [
+    // ---- STLC ----
+    { id: 'requirement-readiness-analyzer', pack: 'stlc', group: 'Requirement Analysis',
+      desc: "Scores a requirement's readiness for QA — gaps, ambiguities, risks, and clarifying questions, plus a per-phase go/no-go read.",
+      input: 'Requirement / ticket (or pasted text)', output: 'Readiness score, gaps, clarifying questions',
+      why: 'Catches missing acceptance criteria before anyone estimates or writes a case against them.',
+      prompt: 'Using STLC_Skills/01_requirement-analysis/requirement-readiness-analyzer/SKILL.md, assess whether this story is ready to test: [paste the acceptance criteria].' },
+    { id: 'test-plan-generator', pack: 'stlc', group: 'Test Planning',
+      desc: 'Turns a requirement into scope, strategy, risks, entry/exit criteria, and a high-level scenario summary.',
+      input: 'Requirement (+ readiness assessment, if any)', output: 'Scope, strategy, risks, entry/exit criteria',
+      why: "Answers 'what should we test here' before anyone writes a single scenario.",
+      prompt: 'Using STLC_Skills/02_test-planning/test-plan-generator/SKILL.md, write a test plan for the new checkout discount-code feature.' },
+    { id: 'test-scenario-designer', pack: 'stlc', group: 'Test Design',
+      desc: 'Derives positive, negative, boundary, cross-role, and cross-state scenarios, each traced to the AC it exercises.',
+      input: 'Requirement / acceptance criteria', output: 'Categorized, risk-tagged scenario matrix',
+      why: 'Separates WHAT to test from HOW, so scenarios stay reviewable before anyone writes steps.',
+      prompt: 'Using STLC_Skills/03_test-design/test-scenario-designer/SKILL.md, design test scenarios for a password-reset flow.' },
+    { id: 'api-test-designer', pack: 'stlc', group: 'Test Design',
+      desc: 'Maps contract-level API coverage — schema validation, auth, negative inputs, boundary values, error responses, idempotency.',
+      input: 'Endpoint / contract / OpenAPI snippet', output: 'Coverage matrix across the contract',
+      why: 'Finds the untested edge of a contract before it ships as a silent 500 in production.',
+      prompt: 'Using STLC_Skills/03_test-design/api-test-designer/SKILL.md, design test coverage for POST /orders.' },
+    { id: 'test-case-writer', pack: 'stlc', group: 'Test Cases',
+      desc: 'Generates manual test cases, BDD scenarios, an RTM, and an automation assessment — traced Story → AC → Test Case.',
+      input: 'Story, AC, PRD, spec, or wireframe', output: 'Test cases, BDD scenarios, RTM',
+      why: 'Keeps every case traceable back to a real acceptance criterion, never invented behavior.',
+      prompt: 'Using STLC_Skills/04_test-case-development/test-case-writer/SKILL.md, write manual test cases and an RTM for the login page acceptance criteria.' },
+    { id: 'test-data-generator', pack: 'stlc', group: 'Test Cases',
+      desc: 'Generates positive/negative/boundary/synthetic/bulk test data, each tied to the field or scenario it exercises.',
+      input: 'Field / entity / schema definition', output: 'Labeled positive/negative/boundary data sets',
+      why: 'Synthetic only — never real customer data, even when asked for "realistic" records.',
+      prompt: 'Using STLC_Skills/04_test-case-development/test-data-generator/SKILL.md, generate boundary and negative test data for an email input field.' },
+    { id: 'regression-suite-selector', pack: 'stlc', group: 'Test Execution',
+      desc: 'Picks a risk-ranked regression subset for a change (Must-run / Should-run / Skip), plus a safety net.',
+      input: 'A diff, changed files, or a plain description', output: 'Must-run / Should-run / Skip selection',
+      why: 'Works from a description alone — no repo or PR access required to get a recommendation.',
+      prompt: "Using STLC_Skills/05_test-execution/regression-suite-selector/SKILL.md, tell me what to re-run — we changed how the cart calculates shipping cost." },
+    { id: 'test-execution-tracker', pack: 'stlc', group: 'Test Execution',
+      desc: 'Logs pass/fail/blocked/not-run per case with evidence, then rolls up completion % and pass rate.',
+      input: 'Case list + reported results per case', output: 'Execution log + completion/pass-rate rollup',
+      why: 'An unreported case stays "not run" — never quietly assumed green.',
+      prompt: "Using STLC_Skills/05_test-execution/test-execution-tracker/SKILL.md, log today's results for the sprint 12 regression cycle and give me the rollup." },
+    { id: 'bug-reporter', pack: 'stlc', group: 'Defect Management',
+      desc: 'Turns an observed failure into a reproducible, evidence-based defect report — optionally checks for a Jira duplicate first.',
+      input: 'An observed failure + evidence', output: 'Reproducible, evidence-based bug report',
+      why: 'A developer can reproduce it on the first read — no speculation dressed up as fact.',
+      prompt: 'I saw a blank screen after submitting the signup form — using STLC_Skills/06_defect-management/bug-reporter/SKILL.md, write up the bug report.' },
+    { id: 'bug-triage-assistant', pack: 'stlc', group: 'Defect Management',
+      desc: 'Clusters likely duplicates, proposes severity/priority/routing across a defect batch, and summarizes backlog health.',
+      input: 'A defect list / backlog export', output: 'Duplicate clusters, severity, routing',
+      why: 'Every duplicate and routing is a suggestion — never auto-closed, merged, or reassigned silently.',
+      prompt: 'Using STLC_Skills/06_defect-management/bug-triage-assistant/SKILL.md, triage this list of 20 open bugs.' },
+    { id: 'rca-analyzer', pack: 'stlc', group: 'Defect Management',
+      desc: 'Runs 5-Whys and a fishbone across people/process/tooling/data/environment, separates root cause from symptom.',
+      input: 'A defect / incident + evidence', output: 'Root cause, timeline, CAPA plan',
+      why: 'Unproven links are marked hypotheses to verify, never presented as confirmed cause.',
+      prompt: 'Using STLC_Skills/06_defect-management/rca-analyzer/SKILL.md, do a root-cause analysis on why the payment bug escaped to production.' },
+    { id: 'test-closure-reporter', pack: 'stlc', group: 'Test Closure',
+      desc: 'Rolls execution, defect, and coverage metrics into an advisory Go / No-Go closure report.',
+      input: 'Execution, defect, coverage data', output: 'Advisory Go/No-Go closure report',
+      why: 'Every metric shows its denominator — an auditable number, not a vibe.',
+      prompt: 'Using STLC_Skills/07_test-closure/test-closure-reporter/SKILL.md, write the closure report for this release cycle.' },
+    { id: 'test-coverage-analyzer', pack: 'stlc', group: 'Test Closure',
+      desc: 'Finds the gap between what was required and what was actually tested/automated/executed, ranked by risk.',
+      input: 'Requirements, RTM, test/execution reports', output: 'Risk-ranked coverage gap analysis',
+      why: 'Never assumes coverage exists without traceable evidence — orphan tests included.',
+      prompt: "Using STLC_Skills/07_test-closure/test-coverage-analyzer/SKILL.md, find coverage gaps against our RTM before we close this cycle." },
+
+    // ---- Playwright ----
+    { id: 'pw-test-generator', pack: 'pw', group: 'Playwright Pack',
+      desc: "Drafts a Playwright test from an approved scenario or test case, matched to the project's own language and conventions.",
+      input: 'Approved scenario / test case', output: 'Playwright test draft (JS/TS)',
+      why: 'Reuses your existing fixtures and Page Objects rather than duplicating setup.',
+      prompt: 'Using Automation_Playwright/pw-test-generator/SKILL.md, write a Playwright test for the "add to cart" flow.' },
+    { id: 'pw-fixture-designer', pack: 'pw', group: 'Playwright Pack',
+      desc: 'Designs reusable fixtures (auth, seeded data, page objects) with the right scope and guaranteed teardown.',
+      input: 'A repeated setup need (auth, data)', output: 'Scoped fixture with teardown',
+      why: 'Defaults to test-scoped; only shares state across tests when that is demonstrably safe.',
+      prompt: 'Using Automation_Playwright/pw-fixture-designer/SKILL.md, design an authenticated-session fixture so tests stop logging in through the UI every time.' },
+    { id: 'pw-page-object-builder', pack: 'pw', group: 'Playwright Pack',
+      desc: 'Builds or refactors a Page Object class — lazy locators, meaningful action methods, assertions stay in the test.',
+      input: 'A page / inline-locator test', output: 'Page Object class',
+      why: 'Judges class size by responsibility, not a locator count — no arbitrary splitting rule.',
+      prompt: 'Using Automation_Playwright/pw-page-object-builder/SKILL.md, turn this inline test into a Page Object for the settings page.' },
+    { id: 'pw-locator-fixer', pack: 'pw', group: 'Playwright Pack',
+      desc: 'Audits a spec or Page Object for brittle locators and proposes resilient swaps without changing test intent.',
+      input: 'A spec or Page Object', output: 'Rewrite map of resilient locators',
+      why: 'Never invents a test ID or accessible name — flags the gap instead of guessing.',
+      prompt: 'Using Automation_Playwright/pw-locator-fixer/SKILL.md, review the locators in this file and harden the brittle ones.' },
+    { id: 'pw-flaky-debugger', pack: 'pw', group: 'Playwright Pack',
+      desc: 'Reproduces a flaky test, classifies the root cause — product, test, environment, or data — and proposes the smallest fix.',
+      input: 'A test that fails intermittently', output: 'Root cause + smallest fix',
+      why: 'Never labels a real product race "flaky" just to make the build green again.',
+      prompt: 'Using Automation_Playwright/pw-flaky-debugger/SKILL.md, this test fails about 1 in 15 runs — find out why.' },
+    { id: 'pw-trace-analyzer', pack: 'pw', group: 'Playwright Pack',
+      desc: 'Reads a trace.zip or CI failure artifact, reconstructs the timeline, and classifies the root cause.',
+      input: 'A trace.zip / CI failure', output: 'Timeline + root-cause diagnosis',
+      why: 'A timeout is treated as a symptom to investigate, never the diagnosis itself.',
+      prompt: "Using Automation_Playwright/pw-trace-analyzer/SKILL.md, here's the trace from last night's CI failure — what broke?" },
+    { id: 'pw-api-tester', pack: 'pw', group: 'Playwright Pack',
+      desc: "Designs API tests via Playwright's request context — happy path, schema, auth, negative/boundary, cleanup.",
+      input: 'An endpoint / contract', output: 'API test suite via request context',
+      why: 'Never asserts a generated ID or timestamp as a fixed value — type and shape instead.',
+      prompt: 'Using Automation_Playwright/pw-api-tester/SKILL.md, write API tests for GET /api/orders/:id.' },
+    { id: 'pw-network-mocker', pack: 'pw', group: 'Playwright Pack',
+      desc: 'Designs route interception to simulate success/empty/error/slow states deterministically.',
+      input: 'A backend dependency to control', output: 'Route interception / mock handlers',
+      why: "A passing mock against the wrong schema is a false green — matched to the real contract.",
+      prompt: 'Using Automation_Playwright/pw-network-mocker/SKILL.md, mock the orders API returning a 500 so I can test the error banner.' },
+    { id: 'pw-visual-regression', pack: 'pw', group: 'Playwright Pack',
+      desc: 'Sets up screenshot regression coverage — masking, thresholds, and a baseline-review discipline.',
+      input: 'A page / component', output: 'Screenshot test + baseline strategy',
+      why: 'Baselines are generated then human-reviewed — never auto-approved.',
+      prompt: 'Using Automation_Playwright/pw-visual-regression/SKILL.md, add visual regression coverage for the dashboard page.' },
+    { id: 'pw-mobile-tester', pack: 'pw', group: 'Playwright Pack',
+      desc: 'Adds device-emulation coverage — breakpoints, touch, geolocation — once an app genuinely has a mobile UI.',
+      input: 'A responsive/mobile UI', output: 'Device-project config + tests',
+      why: 'Confirms the app actually needs mobile coverage before adding it — not a default.',
+      prompt: 'Using Automation_Playwright/pw-mobile-tester/SKILL.md, add responsive breakpoint coverage for the homepage.' },
+    { id: 'pw-multi-tab-handler', pack: 'pw', group: 'Playwright Pack',
+      desc: 'Writes race-free code for any flow that opens a popup, new tab, or OAuth window.',
+      input: 'A flow that opens a tab/popup', output: 'Race-free tab-handling code',
+      why: 'Subscribes to the new-page event before the click — never a race waiting to happen.',
+      prompt: "Using Automation_Playwright/pw-multi-tab-handler/SKILL.md, my test can't find anything after this link opens a new tab — fix it." },
+    { id: 'pw-ci-configurator', pack: 'pw', group: 'Playwright Pack',
+      desc: 'Designs CI-platform-neutral execution — sharding vs. workers, retries, reporters, failure artifacts.',
+      input: 'A Playwright suite + CI goal', output: 'Execution strategy + config',
+      why: "Stays CI-provider neutral until you actually name one — no GitHub Actions assumed.",
+      prompt: 'Using Automation_Playwright/pw-ci-configurator/SKILL.md, help me shard this suite across CI jobs and keep traces on failure.' },
+    { id: 'pw-test-step-reporter', pack: 'pw', group: 'Playwright Pack',
+      desc: 'Structures a test with test.step, evidence attachments, and soft-assertion gates so the report explains itself.',
+      input: 'A multi-step test', output: 'Stepped, evidence-attached test',
+      why: 'A failure should point at a phase, not just a line number, when it hits CI.',
+      prompt: "Using Automation_Playwright/pw-test-step-reporter/SKILL.md, make this checkout test's report readable when it fails in CI." },
+    { id: 'pw-test-health-reporter', pack: 'pw', group: 'Playwright Pack',
+      desc: 'Analyzes suite health across many runs and flags bug-linked skips that look stale.',
+      input: 'Multi-run results (JSON/CLI)', output: 'Health report + bug-ID cross-check',
+      why: 'A vague "known issue" comment is treated as untracked, not equal to a real bug ID.',
+      prompt: 'Using Automation_Playwright/pw-test-health-reporter/SKILL.md, tell me which tests are flakiest across the last 10 runs.' },
+    { id: 'pw-suite-auditor', pack: 'pw', group: 'Playwright Pack',
+      desc: 'Scans an existing suite and outputs a prioritized plan naming exactly which skill to run, on which file.',
+      input: 'An existing Playwright suite', output: 'Prioritized skill-by-skill plan',
+      why: 'Routes and cites evidence — it never performs the fix itself.',
+      prompt: 'Using Automation_Playwright/pw-suite-auditor/SKILL.md, audit our existing Playwright suite and tell me where to start.' }
+  ];
+
+  var STLC_GROUPS = PHASES.map(function (p) { return p.title; });
+
+  // ---- render sidebar grouped list, scoped to the active pack tab ----
+  var sideList = document.getElementById('sideList');
+  var groups = {};
+  SKILLS.forEach(function (s) { (groups[s.group] = groups[s.group] || []).push(s); });
+
+  var activePack = 'stlc';
+
+  function buildSidebar() {
+    sideList.innerHTML = '';
+
+    if (activePack === 'stlc') {
+      STLC_GROUPS.forEach(function (groupName) {
+        var items = groups[groupName];
+        if (!items) return;
+
+        var wrap = document.createElement('div');
+        wrap.className = 'side-group';
+        wrap.dataset.group = groupName;
+
+        var btn = document.createElement('button');
+        btn.className = 'side-group-btn';
+        btn.type = 'button';
+        btn.setAttribute('aria-expanded', 'true');
+        btn.innerHTML = '<span><svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg> ' + groupName + '</span><span class="side-group-count">' + items.length + '</span>';
+        wrap.appendChild(btn);
+
+        var list = document.createElement('div');
+        list.className = 'side-group-items';
+        items.forEach(function (s) { list.appendChild(makeSideItem(s)); });
+        wrap.appendChild(list);
+
+        btn.addEventListener('click', function () {
+          var expanded = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+          list.style.display = expanded ? 'none' : '';
+        });
+
+        sideList.appendChild(wrap);
+      });
+    } else {
+      // Playwright pack: one flat list, no sub-grouping.
+      var wrap = document.createElement('div');
+      wrap.className = 'side-group';
+      wrap.dataset.group = 'Playwright Pack';
+      var list = document.createElement('div');
+      list.className = 'side-group-items';
+      groups['Playwright Pack'].forEach(function (s) { list.appendChild(makeSideItem(s)); });
+      wrap.appendChild(list);
+      sideList.appendChild(wrap);
+    }
+  }
+
+  function makeSideItem(s) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'side-item';
+    b.dataset.id = s.id;
+    b.innerHTML = '<span class="nm">' + labelize(s.id) + '</span><span class="id">' + s.id + '</span>';
+    b.addEventListener('click', function () { selectSkill(s.id); });
+    return b;
+  }
+
+  function labelize(id) {
+    return id.replace(/^pw-/, '').split('-').map(function (w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(' ');
+  }
+
+  document.querySelectorAll('.pack-tab').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      if (tab.dataset.pack === activePack) return;
+      activePack = tab.dataset.pack;
+      document.querySelectorAll('.pack-tab').forEach(function (t) { t.setAttribute('aria-selected', t === tab ? 'true' : 'false'); });
+      search.value = '';
+      buildSidebar();
+      var firstInPack = SKILLS.find(function (s) { return s.pack === activePack; });
+      selectSkill(firstInPack.id);
+    });
+  });
+
+  var current = SKILLS[0].id;
+
+  function selectSkill(id) {
+    current = id;
+    document.querySelectorAll('.side-item').forEach(function (el) {
+      el.setAttribute('aria-current', el.dataset.id === id ? 'true' : 'false');
+    });
+    renderDetail(SKILLS.find(function (s) { return s.id === id; }));
+  }
+
+  function renderDetail(s) {
+    var detail = document.getElementById('detail');
+    var packLabel = s.pack === 'stlc' ? 'STLC · ' + s.group : 'Playwright Pack';
+    detail.innerHTML =
+      '<div class="detail-head">' +
+        '<div><h2>' + labelize(s.id) + '</h2><div class="detail-id">' + s.id + '</div></div>' +
+        '<span class="badge ' + s.pack + '">' + packLabel + '</span>' +
+      '</div>' +
+      '<p class="detail-desc">' + s.desc + '</p>' +
+      '<div class="iospec-wrap"><div class="iospec">' +
+        '<div class="box"><span class="lbl">Input</span><p>' + s.input + '</p></div>' +
+        '<div class="arr"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>' +
+        '<div class="box skill"><span class="lbl">The skill</span><p>' + labelize(s.id) + '</p></div>' +
+        '<div class="arr"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>' +
+        '<div class="box"><span class="lbl">Output</span><p>' + s.output + '</p></div>' +
+      '</div></div>' +
+      '<span class="gate-pill"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg> stops at a human-review gate</span>' +
+      '<div class="why-box"><span class="tag">Why it matters</span><p>' + s.why + '</p></div>' +
+      '<div class="prompt-box">' +
+        '<div class="prompt-wrap">' +
+          '<div class="lbl-row"><span class="prompt-lbl">Copy prompt · paste into your AI assistant</span></div>' +
+          '<p id="promptText">' + s.prompt + '</p>' +
+        '</div>' +
+        '<button class="copy-btn" type="button" id="copyBtn">copy</button>' +
+      '</div>';
+
+    document.getElementById('copyBtn').addEventListener('click', function () {
+      var text = document.getElementById('promptText').textContent;
+      var btn = this;
+      var done = function () {
+        var orig = btn.textContent;
+        btn.textContent = 'copied';
+        btn.classList.add('copied');
+        setTimeout(function () { btn.textContent = orig; btn.classList.remove('copied'); }, 1400);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(function () { fallbackCopy(text, done); });
+      } else { fallbackCopy(text, done); }
+    });
+  }
+
+  function fallbackCopy(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  // ---- search filtering ----
+  var search = document.getElementById('search');
+  search.addEventListener('input', function () {
+    var q = search.value.trim().toLowerCase();
+    var anyVisible = false;
+    document.querySelectorAll('.side-group').forEach(function (group) {
+      var groupHasMatch = false;
+      group.querySelectorAll('.side-item').forEach(function (item) {
+        var s = SKILLS.find(function (sk) { return sk.id === item.dataset.id; });
+        var hay = (s.id + ' ' + s.desc + ' ' + s.group).toLowerCase();
+        var match = q === '' || hay.indexOf(q) !== -1;
+        item.style.display = match ? '' : 'none';
+        if (match) groupHasMatch = true;
+      });
+      group.style.display = groupHasMatch ? '' : 'none';
+      if (groupHasMatch) anyVisible = true;
+      if (q !== '') {
+        var btn = group.querySelector('.side-group-btn');
+        var list = group.querySelector('.side-group-items');
+        if (btn) btn.setAttribute('aria-expanded', 'true');
+        if (list) list.style.display = '';
+      }
+    });
+  });
+
+  buildSidebar();
+  selectSkill(current);
+})();
+</script>
+
+</body>
+</html>

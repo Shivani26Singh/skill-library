@@ -12,9 +12,9 @@ description: >-
   requirement owner.
 license: MIT
 metadata:
-   author: Shivani Singh |
-   stlc-phase: Requirement Analysis |
-   version: 1.0.0
+  author: Shivani Singh
+  stlc-phase: Requirement Analysis
+  version: 1.0.0
 ---
 
 # Requirement Readiness Analyzer
