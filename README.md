@@ -2,6 +2,8 @@
 
 ![The QA Skill Suite — 28 agent skills across the STLC and Playwright automation](QA_Skills_Catalog.png)
 
+**🔗 Browse it live: [qa-skill-library.vercel.app](https://qa-skill-library.vercel.app)**
+
 A library of reusable **AI assistant skills** that cover the Software Testing Life Cycle (STLC) end to end — from judging whether a requirement is ready to test, through planning, design, test case authoring, defect management, and test closure. Each skill is a single `SKILL.md` file: a self-contained set of instructions that tells the AI assistant exactly how to perform one QA activity, consistently, every time.
 
 ## Who Is This For?
@@ -210,7 +212,9 @@ Additional Playwright-specific documentation and examples will be added in futur
 
 ## Browsing the Catalog Visually
 
-The banner image at the top of this README ([`QA_Skills_Catalog.png`](QA_Skills_Catalog.png)) is a static, at-a-glance overview of the whole suite. For an interactive version, [`website/index.html`](website/index.html) is a standalone, self-contained page listing all 28 skills with a searchable browser and a copy-ready prompt for each — no build step required. Open it directly in a browser, or deploy it as-is (e.g. to Vercel) to share a browsable version of this catalog.
+The banner image at the top of this README ([`QA_Skills_Catalog.png`](QA_Skills_Catalog.png)) is a static, at-a-glance overview of the whole suite.
+
+**👉 [qa-skill-library.vercel.app](https://qa-skill-library.vercel.app)** — an interactive, searchable version of this catalog: all 28 skills, each with a copy-ready prompt. The source is [`website/index.html`](website/index.html) — a standalone, self-contained page with no build step, deployable as-is anywhere that serves static files.
 
 ## Author
 
