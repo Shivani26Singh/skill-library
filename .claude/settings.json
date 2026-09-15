@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e ' *)",
+      "Bash(curl -s -o /dev/null -w \"status:%{http_code}\\\\n\" https://qa-skill-library.vercel.app)",
+      "Bash(curl -s https://qa-skill-library.vercel.app)"
+    ]
+  }
+}
