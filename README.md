@@ -4,6 +4,16 @@
 
 **🔗 Browse it live: [qa-skill-library.vercel.app](https://qa-skill-library.vercel.app)**
 
+## In Short
+
+- **What it is** — 28 reusable AI skills covering the QA lifecycle: requirement analysis, test planning, test design, test case development, execution, defect management, RCA, and test closure, plus a dedicated Playwright automation pack.
+- **Why it matters** — you shouldn't have to re-explain your QA process to an AI assistant every time you open a new chat. Each skill writes the workflow, the expected output, and the guardrails down once, in a reusable `SKILL.md` file the whole team shares.
+- **Value delivered** — it turns the assistant into a repeatable QA teammate rather than a chatbot you brief from scratch, producing structured drafts for test plans, test cases, defect triage, RCA, coverage analysis and closure — with human review before anything is final.
+
+**New to this?** A skill is just a text file that tells your AI assistant how to do one QA job — like the onboarding note you'd hand a new tester, except the assistant re-reads it before every run. Nothing to install: point your assistant at the `SKILL.md` path and ask.
+
+---
+
 A library of reusable **AI assistant skills** that cover the Software Testing Life Cycle (STLC) end to end — from judging whether a requirement is ready to test, through planning, design, test case authoring, defect management, and test closure. Each skill is a single `SKILL.md` file: a self-contained set of instructions that tells the AI assistant exactly how to perform one QA activity, consistently, every time.
 
 ## Who Is This For?

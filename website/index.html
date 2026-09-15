@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QA Skill Library</title>
-<meta name="description" content="28 instruction files for AI coding assistants — the full software testing lifecycle plus a Playwright automation pack. Point your assistant at one and go.">
+<meta name="description" content="Stop re-explaining your QA process to AI. 28 ready-made instruction files that teach your AI assistant how your team does requirement analysis, test planning, test design, defect triage, RCA, closure — plus a Playwright automation pack.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -172,6 +172,7 @@
   }
   .callout .fact-list { margin-top: 0; }
   .callout ul.fact-list li::before { background: var(--advisory); }
+  @media (min-width: 761px) { .callout .fact-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 32px; } }
 
   /* ---------- Concept cards (What is a skill) ---------- */
   .concept-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-content: start; height: 100%; }
@@ -186,8 +187,28 @@
   .section-head h2 { font-size: clamp(1.4rem, 2.8vw, 1.9rem); font-weight: 600; }
   .section-head p { color: var(--ink-soft); margin: 10px 0 0; }
 
+  /* Heading left, its explanation right — so a wide row never sits half empty. */
+  .head-split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 4vw, 48px); align-items: start; max-width: none; }
+  @media (max-width: 860px) { .head-split { grid-template-columns: 1fr; gap: 12px; } }
+  /* Nudge the right column down so its first line sits with the heading, not the eyebrow. */
+  @media (min-width: 861px) { .head-split .head-text { padding-top: 2.1rem; } }
+  .head-split .head-text > p:first-child { margin-top: 0; }
+  .head-split p.head-note { margin: 12px 0 0; font-size: 0.92rem; color: var(--ink-faint); }
+  /* Browse's heading row lines up with the sidebar + detail columns underneath it. */
+  .head-split.match-explorer { grid-template-columns: 300px 1fr; gap: 22px; }
+  @media (max-width: 880px) {
+    .head-split.match-explorer { grid-template-columns: 1fr; gap: 12px; }
+    .head-split.match-explorer .head-text { padding-top: 0; }
+  }
+  .subhead-split {
+    display: grid; grid-template-columns: auto 1fr; gap: 10px 28px; align-items: baseline; margin: 34px 0 14px;
+  }
+  @media (max-width: 680px) { .subhead-split { grid-template-columns: 1fr; } }
+  .subhead-split .eyebrow { margin-bottom: 0; }
+  .subhead-split p { margin: 0; font-size: 0.9rem; color: var(--ink-soft); }
+
   /* ---------- What is a skill ---------- */
-  .anatomy { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+  .anatomy { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
   @media (max-width: 820px) { .anatomy { grid-template-columns: 1fr; } }
   .anatomy p { color: var(--ink-soft); font-size: 0.98rem; }
   .filecard {
@@ -198,21 +219,19 @@
     display: flex; align-items: center; gap: 8px; color: #c9a8ff; font-weight: 600; font-size: 0.8rem; margin-bottom: 14px;
     padding-bottom: 10px; border-bottom: 1px solid #3a2e59;
   }
+  .filecard .fbody { white-space: pre-wrap; margin: 0; font: inherit; }
+  .filecard .fbody .comment { color: #877aa3; font-style: italic; }
+  .filecard .fbody .key { color: #9ad9d0; }
   .filecard .dots { display: flex; gap: 5px; margin-right: 4px; }
   .filecard .dots span { width: 8px; height: 8px; border-radius: 50%; background: #3a2e59; display: inline-block; }
 
-  .benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
-  @media (max-width: 760px) { .benefits { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 520px) { .benefits { grid-template-columns: 1fr; } }
-  .benefit { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
-  .benefit .ic { width: 30px; height: 30px; border-radius: 8px; background: var(--secondary-soft); color: var(--secondary); display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
-  .benefit h3 { font-size: 0.98rem; font-weight: 600; }
-  .benefit p { margin: 6px 0 0; font-size: 0.86rem; color: var(--ink-soft); }
 
   /* ---------- Install / folder section ---------- */
-  .install-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; margin-bottom: 26px; }
+  .install-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(24px, 4vw, 44px); align-items: start; margin-bottom: 26px; }
   @media (max-width: 820px) { .install-grid { grid-template-columns: 1fr; } }
-  .install-grid p { color: var(--ink-soft); font-size: 0.96rem; }
+  .install-grid p { color: var(--ink-soft); font-size: 0.96rem; margin: 14px 0 0; }
+  .install-lead h2 { font-size: clamp(1.4rem, 2.8vw, 1.9rem); font-weight: 600; }
+  .install-lead .fact-list { margin-top: 20px; }
   .tree-card {
     background: var(--code-bg); color: var(--code-ink); border-radius: 12px; padding: 18px 20px 20px;
     box-shadow: var(--shadow); font-family: "IBM Plex Mono", monospace; font-size: 0.86rem;
@@ -253,6 +272,7 @@
     flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
     font-family: "IBM Plex Mono", monospace; font-size: 0.74rem; font-weight: 500;
     padding: 8px 6px; border-radius: 7px; border: none; background: none; color: var(--ink-soft); cursor: pointer;
+    white-space: nowrap;
   }
   .pack-tab span { font-size: 0.7rem; color: var(--ink-faint); }
   .pack-tab[aria-selected="true"] { background: var(--surface); color: var(--accent); box-shadow: var(--shadow); }
@@ -354,6 +374,116 @@
   .companion .tag { font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; color: var(--secondary); background: var(--surface); padding: 3px 9px; border-radius: 999px; }
   .btn-secondary { background: var(--secondary); color: #fff; }
 
+  /* ---------- Who it's for line ---------- */
+  .hero-who { margin: 18px 0 0; font-size: 0.86rem; color: var(--ink-faint); max-width: 52ch; }
+
+  /* ---------- Before / after comparison ---------- */
+  .why-head {
+    display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(24px, 4vw, 44px);
+    align-items: center; margin-bottom: clamp(22px, 4vw, 32px);
+  }
+  @media (max-width: 860px) { .why-head { grid-template-columns: 1fr; } }
+  .why-head .section-head { margin-bottom: 0; }
+  .ask-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 22px 24px; box-shadow: var(--shadow); position: relative;
+  }
+  .ask-card::after {
+    content: ''; position: absolute; left: 34px; bottom: -9px; width: 16px; height: 16px;
+    background: var(--surface); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    transform: rotate(45deg); border-bottom-right-radius: 3px;
+  }
+  .ask-label {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.7rem; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--ink-faint); display: block;
+  }
+  .ask-text {
+    margin: 10px 0 0; font-family: "Fraunces", Georgia, serif; font-style: italic;
+    font-size: clamp(1.05rem, 1.8vw, 1.25rem); color: var(--ink); line-height: 1.35;
+  }
+  .ask-note { display: block; margin-top: 12px; font-size: 0.82rem; color: var(--ink-faint); }
+
+  /* ---------- Split tagline banner ---------- */
+  .tagline-banner.split { display: grid; grid-template-columns: 1fr auto; gap: clamp(20px, 4vw, 36px); align-items: center; }
+  @media (max-width: 760px) { .tagline-banner.split { grid-template-columns: 1fr; } }
+  .tagline-cta { display: flex; flex-direction: column; align-items: stretch; gap: 10px; }
+  .tagline-cta .btn { justify-content: center; white-space: nowrap; }
+  .tagline-cta .btn-text { text-align: center; border-bottom: none; }
+  .tagline-cta .btn-text:hover { text-decoration: underline; }
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 760px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-card { border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px 22px; background: var(--surface); }
+  .compare-card.after { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
+  .compare-tag {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--ink-faint); display: block; margin-bottom: 14px;
+  }
+  .compare-card.after .compare-tag { color: var(--accent); font-weight: 600; }
+  .compare-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 11px; }
+  .compare-list li { position: relative; padding-left: 26px; font-size: 0.92rem; color: var(--ink-soft); line-height: 1.5; }
+  .compare-list li::before {
+    position: absolute; left: 0; top: 0; font-family: "IBM Plex Mono", monospace; font-weight: 700; font-size: 0.9rem;
+  }
+  .compare-list.bad li::before { content: '\00d7'; color: var(--advisory); }
+  .compare-list.good li::before { content: '\2713'; color: var(--secondary); }
+
+  /* ---------- What comes back (sample output) ---------- */
+  .outcome { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: clamp(24px, 4vw, 44px); align-items: start; }
+  @media (max-width: 880px) { .outcome { grid-template-columns: 1fr; } }
+  .outcard { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
+  .outcard-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    padding: 12px 18px; border-bottom: 1px solid var(--border); background: var(--surface-2);
+  }
+  .outcard-name { font-family: "IBM Plex Mono", monospace; font-size: 0.74rem; color: var(--ink-soft); }
+  .outcard-flag {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.06em;
+    background: var(--advisory-soft); color: var(--advisory); padding: 3px 9px; border-radius: 999px; font-weight: 600;
+  }
+  .outbody {
+    margin: 0; padding: 18px 20px; white-space: pre-wrap; overflow-x: auto;
+    font-family: "IBM Plex Mono", monospace; font-size: 0.78rem; line-height: 1.75; color: var(--ink-soft);
+  }
+  .outbody .o-h { color: var(--accent); font-weight: 600; }
+  .outbody .o-hi { color: var(--advisory); font-weight: 600; }
+  .outbody .o-gate { color: var(--secondary); font-weight: 600; }
+  .outbody .o-score { color: var(--ink); font-weight: 600; }
+  .outbody .o-ref { color: var(--secondary); font-weight: 600; }
+  .out-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin-top: 14px; }
+  .out-chips-lbl { font-size: 0.8rem; color: var(--ink-faint); margin-right: 2px; }
+  .out-chip {
+    font-family: "IBM Plex Mono", monospace; font-size: 0.7rem; color: var(--ink-soft);
+    background: var(--surface); border: 1px solid var(--border); padding: 3px 9px; border-radius: 999px;
+  }
+
+  /* ---------- Three steps ---------- */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 760px) { .steps { grid-template-columns: 1fr; } }
+  .step { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .step-num {
+    display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%;
+    background: var(--accent); color: var(--accent-ink); font-family: "Fraunces", serif; font-weight: 700;
+    font-size: 0.95rem; margin-bottom: 12px;
+  }
+  .step h3 { font-size: 1rem; font-weight: 600; }
+  .step p { margin: 6px 0 0; font-size: 0.88rem; color: var(--ink-soft); }
+
+  /* ---------- Section notes ---------- */
+  .anatomy-note { margin: 22px 0 0; font-size: 0.92rem; color: var(--ink-faint); font-style: italic; }
+  .flow-head h2 { font-size: clamp(1.4rem, 2.8vw, 1.9rem); font-weight: 600; margin-bottom: 10px; }
+  .image-caption { display: block; text-align: center; margin: 14px auto 0; max-width: 60ch; font-size: 0.84rem; color: var(--ink-faint); }
+
+  /* ---------- What this does not do ---------- */
+  .limits-box {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: clamp(22px, 4vw, 32px);
+    display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(18px, 4vw, 44px); align-items: start;
+  }
+  @media (max-width: 760px) { .limits-box { grid-template-columns: 1fr; } }
+  .limits-box h2 { font-size: clamp(1.3rem, 2.4vw, 1.6rem); font-weight: 600; }
+  .limits-box h2 em { font-style: italic; color: var(--accent); }
+  .limits-box .fact-list { margin-top: 0; }
+  .limits-note { margin: 10px 0 0; font-size: 0.92rem; color: var(--ink-soft); }
+
   /* ---------- Footer ---------- */
   footer { border-top: 1px solid var(--border); padding-block: 28px; }
   .footer-inner { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; align-items: center; }
@@ -372,10 +502,12 @@
       QA Skill Library
     </div>
     <div class="top-links">
+      <a href="#why">Why this exists</a>
+      <a href="#what-is">What's a skill</a>
+      <a href="#outcome">What you get</a>
       <a href="#suite">The suite</a>
-      <a href="#what-is">What is a skill</a>
-      <a href="#install">Install &amp; run</a>
       <a href="#browse">Browse skills</a>
+      <a href="#install">Install</a>
       <a href="https://github.com/Shivani26Singh/skill-library" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
@@ -384,144 +516,284 @@
 <div class="wrap">
   <section class="hero">
     <div>
-      <span class="eyebrow">28 skills · MIT licensed</span>
-      <h1>Reusable AI skills for QA, from Requirements to<br>Playwright automation.</h1>
-      <p class="lede">28 review-first skills that turn repeatable QA workflows into versioned, reusable instructions for your AI coding assistant.</p>
+      <span class="eyebrow">For QA teams already using AI</span>
+      <h1>Stop re-explaining your QA process to AI <em>every single time</em>.</h1>
+      <p class="lede">Ask an AI assistant for test cases today and you get a different answer every time — different sections, different wording, no link back to the requirement, and only the standards you remembered to paste. This is a library of <strong>28 ready-made instruction files</strong> that teach your assistant how your team actually works: requirement analysis, test planning, test design, test cases, execution, defect management, root-cause analysis and test closure — plus a Playwright automation pack.</p>
       <div class="hero-stats">
-        <div class="stat"><span class="n">13</span><span class="l">STLC skills</span></div>
+        <div class="stat"><span class="n">13</span><span class="l">Testing-lifecycle skills</span></div>
         <div class="stat"><span class="n">15</span><span class="l">Playwright skills</span></div>
-        <div class="stat"><span class="n">7</span><span class="l">QA phases</span></div>
+        <div class="stat"><span class="n">0</span><span class="l">Actions without your review</span></div>
       </div>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="#browse">Browse all skills →</a>
-        <a class="btn-text" href="https://github.com/Shivani26Singh/skill-library" target="_blank" rel="noopener">View on GitHub</a>
+        <a class="btn btn-primary" href="#why">Start here — why this exists →</a>
+        <a class="btn-text" href="#browse">Skip to all 28 skills</a>
       </div>
+      <p class="hero-who">For QA engineers, SDETs, test leads and BAs — anyone who writes or reviews QA output.</p>
     </div>
     <div class="hero-visual">
-      <div class="hv-node">📄 <code class="mono">SKILL.md</code></div>
+      <div class="hv-node">📄 a skill file — your process, written down</div>
       <div class="hv-arrow">↓</div>
-      <div class="hv-node accent">AI assistant runs the workflow</div>
+      <div class="hv-node accent">your AI assistant follows it, step by step</div>
       <div class="hv-arrow">↓</div>
-      <div class="hv-node">draft output</div>
+      <div class="hv-node">a draft — test plan, cases, bug report…</div>
       <div class="hv-arrow">↓</div>
-      <div class="hv-node gate">✓ HUMAN REVIEW — you decide</div>
-      <span class="hv-caption">the same flow, every skill</span>
+      <div class="hv-node gate">✓ YOU REVIEW — nothing is final until you say so</div>
+      <span class="hv-caption">every skill in the library works this way</span>
     </div>
   </section>
 </div>
 
 <div class="wrap">
-  <div class="tagline-banner">
-    <p class="tagline-main">Write the workflow once. Let the agent run it every time.</p>
-    <p class="tagline-sub">Skills turn your QA process into something versioned and shareable, instead of re-explained from memory each session — same testers, one shared standard.</p>
-  </div>
+  <section id="why">
+    <div class="why-head">
+      <div class="section-head">
+        <span class="eyebrow">Why this exists</span>
+        <h2>The same request, with and without a skill.</h2>
+        <p>Nothing changes about how you work — you still just ask your assistant for what you need. What changes is what comes back.</p>
+      </div>
+      <div class="ask-card">
+        <span class="ask-label">You ask your AI assistant</span>
+        <p class="ask-text">“Write test cases for the login page.”</p>
+        <span class="ask-note">The same sentence, either way. Two very different results below.</span>
+      </div>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card before">
+        <span class="compare-tag">Today — asking AI directly</span>
+        <ul class="compare-list bad">
+          <li>The format changes every run — different headings, columns, level of detail.</li>
+          <li>Every tester pastes their own version of “how we do this here”.</li>
+          <li>Cases show up that no acceptance criterion ever asked for.</li>
+          <li>Nothing links a test case back to the requirement it covers.</li>
+          <li>You read it and hope the gaps aren't the important ones.</li>
+        </ul>
+      </div>
+      <div class="compare-card after">
+        <span class="compare-tag">With a skill file</span>
+        <ul class="compare-list good">
+          <li>Same sections, same terminology, every run — whoever asked.</li>
+          <li>The standard lives in one file the whole team shares.</li>
+          <li>A missing acceptance criterion comes back as a question, never invented.</li>
+          <li>Every case traces to the acceptance criterion it exercises.</li>
+          <li>It stops and hands you a draft to review before anything is final.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tagline-banner split" style="margin-top: 26px;">
+      <div>
+        <p class="tagline-main">Write the workflow down once. Let the assistant run it every time.</p>
+        <p class="tagline-sub">That's the whole idea: your QA process becomes something written, shared and versioned in Git — instead of something each person re-explains from memory in every new chat. It turns the assistant into a repeatable QA teammate rather than a chatbot you have to brief from scratch.</p>
+      </div>
+      <div class="tagline-cta">
+        <a class="btn btn-primary" href="#what-is">See what a skill file looks like →</a>
+        <a class="btn-text" href="#browse">Or jump straight to all 28 skills</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <section id="what-is">
+    <div class="section-head head-split">
+      <div>
+        <span class="eyebrow">What's a skill</span>
+        <h2>A skill is a text file that tells AI how to do one QA job.</h2>
+      </div>
+      <div class="head-text">
+        <p>Think of it as the onboarding note you'd hand a new tester — except the assistant re-reads it before every single run, so it never drifts, skips a step, or makes up its own format.</p>
+        <p>One file per job: one for test planning, one for writing bug reports, one for root-cause analysis. Every file has the same four parts.</p>
+      </div>
+    </div>
+    <div class="anatomy">
+      <div class="concept-grid">
+        <div class="concept-card">
+          <span class="cc-num">01</span>
+          <h3>Which job it handles</h3>
+          <p>A name and one line describing the task, so the assistant knows when this file applies.</p>
+        </div>
+        <div class="concept-card">
+          <span class="cc-num">02</span>
+          <h3>The steps to follow</h3>
+          <p>The exact workflow, in order — the assistant works through it instead of improvising.</p>
+        </div>
+        <div class="concept-card">
+          <span class="cc-num">03</span>
+          <h3>What the answer must contain</h3>
+          <p>The sections every output has to have, so two people asking get the same shape back.</p>
+        </div>
+        <div class="concept-card">
+          <span class="cc-num">04</span>
+          <h3>What it must never do</h3>
+          <p>The limits: never invent an acceptance criterion, never close a ticket, never use real customer data.</p>
+        </div>
+      </div>
+      <div class="filecard">
+        <div class="fname"><span class="dots"><span></span><span></span><span></span></span> pw-flaky-debugger/SKILL.md</div><pre class="fbody">---
+<span class="key">name</span>: pw-flaky-debugger
+<span class="key">description</span>: >-
+  Diagnoses a flaky Playwright test by
+  collecting evidence, classifying the
+  root cause (product / test / env / data),
+  and proposing the smallest fix.
+<span class="key">license</span>: MIT
+<span class="key">metadata</span>:
+  <span class="key">author</span>: Shivani Singh
+  <span class="key">pack</span>: playwright
+  <span class="key">version</span>: 1.0.0
+---
+<span class="comment">
+# never fixes flakiness with a longer wait —
+# it hunts the race, then hands you a diff</span></pre>
+      </div>
+    </div>
+
+    <p class="anatomy-note">Every one of the 28 skills is a file like this — there is nothing else to learn. Point your assistant at one and a ticket becomes a first draft you edit, instead of a blank page you fill.</p>
+
+  </section>
+</div>
+
+<div class="wrap">
+  <section id="outcome">
+    <div class="outcome">
+      <div>
+        <span class="eyebrow">What you get back</span>
+        <h2 style="font-size: clamp(1.4rem, 2.8vw, 1.9rem); font-weight: 600;">Every skill hands back a draft you can act on.</h2>
+        <p style="color: var(--ink-soft); margin: 14px 0 0;">Test plans, test cases, test data, regression picks, bug reports, defect triage, root-cause analysis, coverage gaps, closure reports, Playwright tests — different content each time, the same reviewable shape every time. Below is one of them, shortened: the test case writer, run against a login story.</p>
+        <ul class="fact-list">
+          <li><strong>Ready to use, not a starting point</strong> — here that means setup, steps, expected result, priority and an automation call, per case.</li>
+          <li><strong>Every case names the criterion it covers</strong> — so you can tell at a glance what a test is actually there to prove.</li>
+          <li><strong>Gaps are flagged, not filled</strong> — AC-3 is marked partial because the story never said how long a lockout lasts. It asks rather than inventing a number.</li>
+          <li><strong>It ends by asking you</strong> — the review gate separates fact from assumption, so you know exactly what to check before this goes anywhere.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="outcard">
+        <div class="outcard-head">
+          <span class="outcard-name">test-case-writer · output</span>
+          <span class="outcard-flag">draft · shortened</span>
+        </div><pre class="outbody"><span class="o-score">TC-07  Lock account after repeated failures</span>  <span class="o-ref">[AC-3]</span>
+  Setup   Existing user, 0 failed attempts
+  Steps   1. Enter valid email + wrong password ×5
+          2. Try a 6th login with the CORRECT password
+  Expect  Login refused, lockout message shown
+  Type    Negative   Priority  High   Automate  Yes
+
+<span class="o-h">COVERAGE AGAINST THE STORY</span>
+  <span class="o-ref">AC-1</span>   covered  — TC-01, TC-02
+  <span class="o-ref">AC-2</span>   covered  — TC-03 … TC-06
+  <span class="o-ref">AC-3</span>   <span class="o-hi">partial</span>  — the story never states how long
+                     an account stays locked
+
+<span class="o-gate">HUMAN REVIEW GATE</span>
+  Facts · Observations · Assumptions · Unknowns
+  AC-3 needs a lockout duration before TC-07
+  can be finalised — asked, not assumed.</pre>
+        </div>
+        <div class="out-chips">
+          <span class="out-chips-lbl">One of 28. The same shape comes back from:</span>
+          <span class="out-chip">test plans</span><span class="out-chip">scenarios</span><span class="out-chip">test data</span><span class="out-chip">regression picks</span><span class="out-chip">bug reports</span><span class="out-chip">defect triage</span><span class="out-chip">RCA</span><span class="out-chip">coverage gaps</span><span class="out-chip">closure reports</span><span class="out-chip">Playwright tests</span>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 
 <div class="flow-section" id="suite">
   <div class="wrap" style="padding-block: clamp(36px,6vw,56px);">
     <div class="flow-head">
       <span class="eyebrow">The suite</span>
-      <p>Skills are independent — jump in at any phase. When an earlier phase's output exists, the next one reuses it instead of starting over.</p>
+      <h2>All 28 skills, mapped to the testing lifecycle</h2>
+      <p>STLC is the Software Testing Life Cycle — the phases every test effort moves through, from reading a requirement to signing off a release. Read the map left to right: one phase per column, with the skills available in each.</p>
     </div>
     <img class="suite-image" src="assets/skill-suite.png" alt="The QA Skill Suite: 28 agent skills across the STLC — Analyze, Plan, Design, Cases, Execute, Defects, Closure — each stopping at a human-review gate. 13 STLC skills plus a 15-skill Playwright automation pack.">
+    <span class="image-caption">You don't have to start on the left. Every skill runs on its own — when an earlier phase's output happens to exist, the next one reuses it instead of starting over.</span>
   </div>
 </div>
 
 <div class="wrap">
-  <section id="what-is">
-    <div class="section-head">
-      <span class="eyebrow">What is a skill</span>
-      <h2>Not a prompt. A file with four parts.</h2>
-      <p>Base models are generalists. <strong>If you've explained the same procedure to your assistant three times this week, you've found a skill</strong> — one file it loads on demand, instead of a system prompt you keep re-pasting.</p>
-    </div>
-    <div class="anatomy">
-      <div class="concept-grid">
-        <div class="concept-card">
-          <span class="cc-num">01</span>
-          <h3>Header</h3>
-          <p>Name, description, version.</p>
-        </div>
-        <div class="concept-card">
-          <span class="cc-num">02</span>
-          <h3>Workflow</h3>
-          <p>The exact steps the assistant follows, in order.</p>
-        </div>
-        <div class="concept-card">
-          <span class="cc-num">03</span>
-          <h3>Output</h3>
-          <p>The sections its answer must contain.</p>
-        </div>
-        <div class="concept-card">
-          <span class="cc-num">04</span>
-          <h3>Guardrails</h3>
-          <p>What it must never do.</p>
-        </div>
+  <section id="start">
+    <div class="section-head head-split">
+      <div>
+        <span class="eyebrow">Try it</span>
+        <h2>Three steps. Nothing to install.</h2>
       </div>
-      <div class="filecard">
-        <div class="fname"><span class="dots"><span></span><span></span><span></span></span> pw-flaky-debugger/SKILL.md</div>
----
-name: pw-flaky-debugger
-description: >-
-  Diagnoses a flaky Playwright test by
-  collecting evidence, classifying the
-  root cause (product / test / env / data),
-  and proposing the smallest fix.
-license: MIT
-metadata:
-  author: Shivani Singh
-  pack: playwright
-  version: 1.0.0
----
-
-# never fixes flakiness with a longer wait —
-# it hunts the race, then hands you a diff
+      <div class="head-text">
+        <p>You can try any skill in the next five minutes, in whichever AI assistant you already use — there's no plugin, no account, and no change to your project.</p>
       </div>
     </div>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">1</span>
+        <h3>Get the files</h3>
+        <p>Clone or download the repo so the skill folders sit inside your project.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">2</span>
+        <h3>Open your AI assistant</h3>
+        <p>Claude Code, GitHub Copilot, or any assistant that can read the files in your project folder.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">3</span>
+        <h3>Paste a prompt</h3>
+        <p>Pick a skill below and hit copy — the prompt already points at the right file. Then review what comes back.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <ul class="fact-list">
+        <li><strong>No setup required.</strong> Naming the skill's file path in your prompt works in any assistant that can read your project — that's what the copy button below gives you.</li>
+        <li><strong>Installing is optional.</strong> It only buys you a shortcut: typing <code class="mono">/test-plan-generator</code> instead of the file path. See <a href="#install">Install</a> when you're ready.</li>
+      </ul>
+    </div>
+  </section>
+</div>
 
-    <div class="benefits">
-      <div class="benefit">
-        <div class="ic"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></div>
-        <h3>Consistency</h3>
-        <p>Same request, same structured sections and terminology, regardless of who asked or which assistant runs it.</p>
+<div class="wrap">
+  <section id="browse">
+    <div class="section-head head-split match-explorer">
+      <div>
+        <span class="eyebrow">The catalog</span>
+        <h2>Browse all 28 skills</h2>
+        <p class="head-note">13 for the testing lifecycle, 15 for the Playwright pack. Search by name, or by what you're trying to do.</p>
       </div>
-      <div class="benefit">
-        <div class="ic"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
-        <h3>Traceability</h3>
-        <p>Every finding traces to a stated requirement or piece of evidence — nothing is invented to fill a gap.</p>
+      <div class="head-text">
+        <p>Pick a skill from the list to see what it needs from you, what it hands back, and a prompt you can copy straight into your assistant.</p>
+        <p>Start with <strong>Requirement Readiness Analyzer</strong> if you want the smallest possible first try — paste in a user story and it tells you whether it's ready to test.</p>
       </div>
-      <div class="benefit">
-        <div class="ic"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg></div>
-        <h3>Human-in-the-loop</h3>
-        <p>Every skill ends in a mandatory review gate — the assistant proposes, a person confirms before anything ships.</p>
-      </div>
-      <div class="benefit">
-        <div class="ic"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88M14.47 14.48 20 20M8.12 8.12 12 12"/></svg></div>
-        <h3>Independent &amp; composable</h3>
-        <p>Jump in at any phase. Upstream output is reused when it exists, but reuse is optional, never required.</p>
-      </div>
-      <div class="benefit">
-        <div class="ic"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div>
-        <h3>Honest confidence</h3>
-        <p>Every skill states High / Medium / Low confidence tied to evidence completeness — never to how polished it reads.</p>
-      </div>
-      <div class="benefit">
-        <div class="ic"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="4" height="10" rx="1"/><rect x="10" y="6" width="4" height="15" rx="1"/><rect x="17" y="14" width="4" height="7" rx="1"/></svg></div>
-        <h3>Faster cycles</h3>
-        <p>A ticket ID becomes a review-ready draft — readiness score, test plan, scenarios, bug report — in minutes.</p>
-      </div>
+    </div>
+    <div class="explorer">
+      <aside class="side">
+        <div class="pack-tabs" role="tablist" aria-label="Skill pack">
+          <button class="pack-tab" type="button" data-pack="stlc" role="tab" aria-selected="true">Lifecycle <span>13</span></button>
+          <button class="pack-tab" type="button" data-pack="pw" role="tab" aria-selected="false">Playwright <span>15</span></button>
+        </div>
+        <div class="search-box">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input id="search" type="search" placeholder="Search…" aria-label="Search skills">
+        </div>
+        <div class="side-scroll" id="sideList"></div>
+      </aside>
+      <div class="detail" id="detail"></div>
     </div>
   </section>
 </div>
 
 <div class="wrap">
   <section id="install">
-    <div class="section-head">
-      <span class="eyebrow">Running a skill</span>
-      <h2>One folder. Support varies by tool.</h2>
-      <p>An Agent Skill is a folder containing <code class="mono">SKILL.md</code> — YAML frontmatter plus Markdown instructions — optionally alongside <code class="mono">references/</code>, <code class="mono">scripts/</code>, or other supporting files the workflow opens only when a step needs them. That structure is the same everywhere. How a tool finds and runs it is not.</p>
-    </div>
-
     <div class="install-grid">
+      <div class="install-lead">
+        <span class="eyebrow">Optional setup</span>
+        <h2>Install them to get slash-command shortcuts.</h2>
+        <p>The copy-paste prompts above already work without any setup. Installing only buys you a shortcut — typing <code class="mono">/test-plan-generator</code> instead of naming a file path — by copying the skill folders into the place your assistant looks.</p>
+        <p>A skill folder always contains <code class="mono">SKILL.md</code>, the workflow itself, and may sit alongside <code class="mono">references/</code> and <code class="mono">scripts/</code> that it opens only when a step needs them. That structure is the same everywhere; where each tool looks for it is not.</p>
+        <ul class="fact-list">
+          <li><strong><code class="mono">SKILL.md</code></strong> — required workflow file.</li>
+          <li><strong><code class="mono">references/</code></strong> — optional supporting knowledge.</li>
+          <li><strong><code class="mono">scripts/</code></strong> — optional executable tools.</li>
+          <li><strong>Tool location</strong> — varies by assistant, see below.</li>
+        </ul>
+      </div>
       <div class="tree-card">
         <div class="fname"><span class="dots"><span></span><span></span><span></span></span> folder layout</div>
         <div class="tree-rows">
@@ -535,18 +807,11 @@ metadata:
         </div>
         <span class="tree-caption">the folder + filename convention is universal</span>
       </div>
-      <div>
-        <ul class="fact-list">
-          <li><strong><code class="mono">SKILL.md</code></strong> — required workflow file.</li>
-          <li><strong><code class="mono">references/</code></strong> — optional supporting knowledge.</li>
-          <li><strong><code class="mono">scripts/</code></strong> — optional executable tools.</li>
-          <li><strong>Tool location</strong> — varies by assistant, see below.</li>
-        </ul>
-      </div>
     </div>
 
-    <div class="section-head" style="margin-top: 34px;">
-      <span class="eyebrow">Recognized locations, by tool</span>
+    <div class="subhead-split">
+      <span class="eyebrow">Where each tool looks</span>
+      <p>Drop the folders in the project directory to share them with your team through Git, or in the personal directory to keep them across all your projects.</p>
     </div>
 
     <div class="scope-table-wrap">
@@ -562,33 +827,27 @@ metadata:
 
     <div class="callout">
       <ul class="fact-list">
-        <li><strong>Some overlap exists.</strong> Claude Code and GitHub Copilot CLI both recognize <code class="mono">.claude/skills/</code> — a folder set up for one may already work for the other.</li>
-        <li><strong>Invocation is similar, not identical.</strong> Both support <code class="mono">/&lt;name&gt;</code>, but slash-command behavior varies by tool and version.</li>
-        <li><strong>Not sure your tool supports this?</strong> The file-path method above always works, regardless of tool.</li>
+        <li><strong>There's some overlap.</strong> Claude Code and GitHub Copilot CLI both recognize <code class="mono">.claude/skills/</code>, so a folder set up for one may already work in the other.</li>
+        <li><strong>Shortcuts differ slightly.</strong> Both support <code class="mono">/&lt;name&gt;</code>, but exactly how slash commands behave varies by tool and version.</li>
+        <li><strong>Not sure your tool supports any of this?</strong> Then skip installing entirely — pasting the prompt with the file path in it works regardless of tool.</li>
       </ul>
     </div>
   </section>
 </div>
 
 <div class="wrap">
-  <section id="browse">
-    <div class="section-head">
-      <h2>Browse all 28 skills</h2>
-      <p>Search, or pick a skill from the list — its inputs, output, and a ready-to-copy prompt show on the right.</p>
-    </div>
-    <div class="explorer">
-      <aside class="side">
-        <div class="pack-tabs" role="tablist" aria-label="Skill pack">
-          <button class="pack-tab" type="button" data-pack="stlc" role="tab" aria-selected="true">STLC Skills <span>13</span></button>
-          <button class="pack-tab" type="button" data-pack="pw" role="tab" aria-selected="false">Playwright <span>15</span></button>
-        </div>
-        <div class="search-box">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-          <input id="search" type="search" placeholder="Search…" aria-label="Search skills">
-        </div>
-        <div class="side-scroll" id="sideList"></div>
-      </aside>
-      <div class="detail" id="detail"></div>
+  <section id="limits">
+    <div class="limits-box">
+      <div>
+        <h2>What this does <em>not</em> do</h2>
+        <p class="limits-note">Worth stating plainly — it's the first thing most QA people want to know.</p>
+      </div>
+      <ul class="fact-list">
+        <li><strong>It doesn't replace the tester.</strong> Every skill produces a draft for a person to check. The judgement stays with you.</li>
+        <li><strong>It doesn't touch your tools.</strong> No skill files, closes, merges, reassigns or ships anything — you paste the output in yourself, once you're happy with it.</li>
+        <li><strong>It never uses real customer data.</strong> Generated test data is synthetic, always — even when someone asks for “realistic” records.</li>
+        <li><strong>It doesn't guess to look complete.</strong> A missing acceptance criterion comes back as a clarifying question, not a filled-in blank.</li>
+      </ul>
     </div>
   </section>
 </div>
@@ -661,8 +920,8 @@ metadata:
       why: 'Finds the untested edge of a contract before it ships as a silent 500 in production.',
       prompt: 'Using STLC_Skills/03_test-design/api-test-designer/SKILL.md, design test coverage for POST /orders.' },
     { id: 'test-case-writer', pack: 'stlc', group: 'Test Cases',
-      desc: 'Generates manual test cases, BDD scenarios, an RTM, and an automation assessment — traced Story → AC → Test Case.',
-      input: 'Story, AC, PRD, spec, or wireframe', output: 'Test cases, BDD scenarios, RTM',
+      desc: 'Generates manual test cases, BDD (Given/When/Then) scenarios, a requirements traceability matrix (RTM), and an automation assessment — traced Story → acceptance criterion → test case.',
+      input: 'Story, acceptance criteria, PRD, spec, or wireframe', output: 'Test cases, BDD scenarios, traceability matrix',
       why: 'Keeps every case traceable back to a real acceptance criterion, never invented behavior.',
       prompt: 'Using STLC_Skills/04_test-case-development/test-case-writer/SKILL.md, write manual test cases and an RTM for the login page acceptance criteria.' },
     { id: 'test-data-generator', pack: 'stlc', group: 'Test Cases',
@@ -876,7 +1135,7 @@ metadata:
 
   function renderDetail(s) {
     var detail = document.getElementById('detail');
-    var packLabel = s.pack === 'stlc' ? 'STLC · ' + s.group : 'Playwright Pack';
+    var packLabel = s.pack === 'stlc' ? s.group : 'Playwright Pack';
     detail.innerHTML =
       '<div class="detail-head">' +
         '<div><h2>' + labelize(s.id) + '</h2><div class="detail-id">' + s.id + '</div></div>' +
@@ -890,11 +1149,11 @@ metadata:
         '<div class="arr"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>' +
         '<div class="box"><span class="lbl">Output</span><p>' + s.output + '</p></div>' +
       '</div></div>' +
-      '<span class="gate-pill"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg> stops at a human-review gate</span>' +
-      '<div class="why-box"><span class="tag">Why it matters</span><p>' + s.why + '</p></div>' +
+      '<span class="gate-pill"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg> stops and asks you to review before anything is final</span>' +
+      '<div class="why-box"><span class="tag">Why use the skill instead of just asking</span><p>' + s.why + '</p></div>' +
       '<div class="prompt-box">' +
         '<div class="prompt-wrap">' +
-          '<div class="lbl-row"><span class="prompt-lbl">Copy prompt · paste into your AI assistant</span></div>' +
+          '<div class="lbl-row"><span class="prompt-lbl">Copy this prompt · paste it into your AI assistant</span></div>' +
           '<p id="promptText">' + s.prompt + '</p>' +
         '</div>' +
         '<button class="copy-btn" type="button" id="copyBtn">copy</button>' +
