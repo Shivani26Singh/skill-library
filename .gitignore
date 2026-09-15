@@ -3,3 +3,6 @@ output-samples/
 
 # Per-machine Claude Code permissions
 .claude/settings.local.json
+
+.vercel
+.env*

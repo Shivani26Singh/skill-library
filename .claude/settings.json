@@ -3,7 +3,19 @@
     "allow": [
       "Bash(node -e ' *)",
       "Bash(curl -s -o /dev/null -w \"status:%{http_code}\\\\n\" https://qa-skill-library.vercel.app)",
-      "Bash(curl -s https://qa-skill-library.vercel.app)"
+      "Bash(curl -s https://qa-skill-library.vercel.app)",
+      "Bash(curl -sSL -D - -o /dev/null \"https://qa-skill-library.vercel.app?cachebust=$\\(date +%s\\)\")",
+      "Bash(git branch *)",
+      "Bash(export FILTER_BRANCH_SQUELCH_WARNING=1)",
+      "Bash(git filter-branch *)",
+      "Bash(git stash *)",
+      "Bash(timeout 60 vercel ls qa-skill-library)",
+      "Bash(timeout 90 vercel link --yes --project qa-skill-library)",
+      "Bash(timeout 90 vercel pull --yes --environment=production)",
+      "Bash(curl -sL \"https://qa-skill-library.vercel.app?v=$\\(date +%s\\)\" -o /tmp/live_new.html)",
+      "Read(//tmp/**)",
+      "Bash(wc -c)",
+      "Bash(rm -f /tmp/live_new.html)"
     ]
   }
 }
