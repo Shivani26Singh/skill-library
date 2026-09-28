@@ -108,7 +108,10 @@
   .stat { display: flex; flex-direction: column; gap: 2px; }
   .stat .n { font-family: "Fraunces", serif; font-size: 2.1rem; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; color: var(--accent); }
   .stat .l { font-size: 0.76rem; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.05em; }
-  .hero-actions { display: flex; align-items: center; gap: 18px; margin-top: 30px; flex-wrap: wrap; }
+  .hero-actions { display: flex; align-items: center; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
+  .hero-actions .btn { padding: 11px 18px; font-size: 0.88rem; white-space: nowrap; }
+  .hero-actions .btn-text { font-size: 0.86rem; white-space: nowrap; }
+  @media (max-width: 480px) { .hero-actions .btn, .hero-actions .btn-text { white-space: normal; } }
   .btn {
     display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; border-radius: 9px;
     font-size: 0.96rem; font-weight: 600; text-decoration: none; border: 1px solid transparent; cursor: pointer;
@@ -508,7 +511,7 @@
       <a href="#suite">The suite</a>
       <a href="#browse">Browse skills</a>
       <a href="#install">Install</a>
-      <a href="https://github.com/Shivani26Singh/skill-library" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/Shivani26Singh/skill-library" target="_blank" rel="noopener">GitHub ↗</a>
     </div>
   </div>
 </div>
